@@ -1,6 +1,5 @@
 streamlit
 watchdog
 requests
-os
 pandas
 datetime
