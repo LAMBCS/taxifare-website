@@ -1,92 +1,70 @@
 import streamlit as st
 import os
 import requests
-import pandas as pd
-import datetime
 
-'''
-# TaxiFareModel front
-'''
+from PIL import Image
+#from dotenv import load_dotenv
+import os
 
+# Set page tab display
+st.set_page_config(
+   page_title="Simple Image Uploader",
+   page_icon= '🖼️',
+   layout="wide",
+   initial_sidebar_state="expanded",
+)
+
+# Example local Docker container URL
+# url = 'http://api:8000'
+# Example localhost development URL
+url = 'http://localhost:8000'
+#load_dotenv()
+#url = "127.0.0.1:8000"
+
+
+# App title and description
+st.header('Simple Image Uploader 📸')
 st.markdown('''
-Remember that there are several ways to output content into your web page...
+            > This is a Le Wagon boilerplate for any data science projects that involve exchanging images between a Python API and a simple web frontend.
 
-Either as with the title by just creating a string (or an f-string). Or as with this paragraph using the `st.` functions
-''')
+            > **What's here:**
 
-'''
-## Here we would like to add some controllers in order to ask the user to select the parameters of the ride
+            > * [Streamlit](https://docs.streamlit.io/) on the frontend
+            > * [FastAPI](https://fastapi.tiangolo.com/) on the backend
+            > * [PIL/pillow](https://pillow.readthedocs.io/en/stable/) and [opencv-python](https://github.com/opencv/opencv-python) for working with images
+            > * Backend and frontend can be deployed with Docker
+            ''')
 
-1. Let's ask for:
-- date and time
+st.markdown("---")
 
-'''
+### Create a native Streamlit file upload input
+st.markdown("### Let's do a simple face recognition 👇")
+img_file_buffer = st.file_uploader('Upload an image')
 
+if img_file_buffer is not None:
 
-d = st.date_input(
-    "What date would you like to be picked up",
-    datetime.date(2019, 7, 6))
-st.write('We are picking you up on:', d)
+  col1, col2 = st.columns(2)
 
-t = st.time_input('What time would you like to be picked up', datetime.time(8, 45))
-
-st.write('at', t)
-
-'''
-
-- pickup longitude
-
-'''
+  with col1:
+    ### Display the image user uploaded
+    st.image(Image.open(img_file_buffer), caption="Here's the image you uploaded ☝️")
 
 
 
 
-'''
+  with col2:
+    with st.spinner("Wait for it..."):
+      ### Get bytes from the file buffer
+      #img_bytes = img_file_buffer.getvalue()
 
-- pickup latitude
-- dropoff longitude
-- dropoff latitude
-- passenger count
-'''
+      ### Make request to  API (stream=True to stream response as bytes)
+      res = requests.post(url + "/upload_image", files={'img': img_file_buffer.getvalue()})
 
-'''
-## Once we have these, let's call our API in order to retrieve a prediction
+      if res.status_code == 200:
+        ### Display the image returned by the API
+        for image in res.json().values():
 
-See ? No need to load a `model.joblib` file in this app, we do not even need to know anything about Data Science in order to retrieve a prediction...
-
-🤔 How could we call our API ? Off course... The `requests` package 💡
-'''
-
-SERVICE_URL = os.environ.get("SERVICE_URL")
-
-url = SERVICE_URL
-
-if url == 'https://taxifare.lewagon.ai/predict':
-
-    st.markdown('Maybe you want to use your own API for the prediction, not the one provided by Le Wagon...')
-
-
-X_pred = dict(
-        pickup_datetime=[pd.Timestamp("2013-07-06 17:18:00", tz='UTC')],
-        pickup_longitude=[-73.950655],
-        pickup_latitude=[40.783282],
-        dropoff_longitude=[-73.984365],
-        dropoff_latitude=[40.769802],
-        passenger_count=[1]
-    )
-
-
-answer = requests.get("https://taxifare-174146437405.europe-west1.run.app/predict",X_pred)
-
-st.json(answer.json())
-
-'''
-
-2. Let's build a dictionary containing the parameters for our API...
-
-3. Let's call our API using the `requests` package...
-
-4. Let's retrieve the prediction from the **JSON** returned by the API...
-
-## Finally, we can display the prediction to the user
-'''
+            st.image(image, caption="Image returned from API ☝️")
+      else:
+        st.markdown("**Oops**, something went wrong 😓 Please try again.")
+        print(res.status_code, res.content)
