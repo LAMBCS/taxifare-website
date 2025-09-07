@@ -21,9 +21,9 @@ st.set_page_config(
 #load_dotenv()
 #url = "127.0.0.1:8000"
 
-SERVICE_URL = os.environ.get("SERVICE_URL")
+#"SERVICE_URL = os.environ.get("SERVICE_URL")
 
-url = SERVICE_URL
+url = "https://taxifare-174146437405.europe-west1.run.app/upload_image"
 
 
 # App title and description
@@ -56,7 +56,7 @@ if img_file_buffer is not None:
       #img_bytes = img_file_buffer.getvalue()
 
       ### Make request to  API (stream=True to stream response as bytes)
-      res = requests.post(url + "/upload_image", files={'img': img_file_buffer})
+      res = requests.post(url, files={'img': img_file_buffer})
 
       print(res)
 
