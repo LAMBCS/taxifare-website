@@ -58,12 +58,12 @@ if img_file_buffer is not None:
       ### Make request to  API (stream=True to stream response as bytes)
       res = requests.post(url, files={'img': img_file_buffer.getvalue()})
 
-      print(res)
-
 
       if res.status_code == 200:
         ### Display the image returned by the API
         for image in res.json():
+
+            print(image)
 
             st.image(image, caption="Image returned from API ☝️")
 
