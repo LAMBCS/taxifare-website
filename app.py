@@ -56,7 +56,7 @@ if img_file_buffer is not None:
       #img_bytes = img_file_buffer.getvalue()
 
       ### Make request to  API (stream=True to stream response as bytes)
-      res = requests.post(url, files={'img': img_file_buffer})
+      res = requests.post(url, files={'img': img_file_buffer.getvalue()})
 
       print(res)
 
