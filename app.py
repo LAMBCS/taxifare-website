@@ -27,16 +27,10 @@ url = SERVICE_URL
 
 
 # App title and description
-st.header('Simple Image Uploader 📸')
+st.header('Inspiart 📸')
 st.markdown('''
-            > This is a Le Wagon boilerplate for any data science projects that involve exchanging images between a Python API and a simple web frontend.
+            > Test website for Inspiart.
 
-            > **What's here:**
-
-            > * [Streamlit](https://docs.streamlit.io/) on the frontend
-            > * [FastAPI](https://fastapi.tiangolo.com/) on the backend
-            > * [PIL/pillow](https://pillow.readthedocs.io/en/stable/) and [opencv-python](https://github.com/opencv/opencv-python) for working with images
-            > * Backend and frontend can be deployed with Docker
             ''')
 
 st.markdown("---")
@@ -62,13 +56,17 @@ if img_file_buffer is not None:
       #img_bytes = img_file_buffer.getvalue()
 
       ### Make request to  API (stream=True to stream response as bytes)
-      res = requests.post(url + "/upload_image", files={'img': img_file_buffer.getvalue()})
+      res = requests.post(url + "/upload_image", files={'img': img_file_buffer})
+
+      print(res)
+
 
       if res.status_code == 200:
         ### Display the image returned by the API
         for image in res.json().values():
 
             st.image(image, caption="Image returned from API ☝️")
+
       else:
         st.markdown("**Oops**, something went wrong 😓 Please try again.")
         print(res.status_code, res.content)
