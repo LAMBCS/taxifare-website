@@ -65,7 +65,7 @@ if img_file_buffer is not None:
 
             print(image)
 
-            st.image(image[1], caption="Image returned from API ☝️")
+            st.image(image[0], caption="Image returned from API ☝️")
 
       else:
         st.markdown("**Oops**, something went wrong 😓 Please try again.")
