@@ -5,6 +5,7 @@ import requests
 from PIL import Image
 #from dotenv import load_dotenv
 import os
+import json
 
 # Set page tab display
 st.set_page_config(
@@ -41,32 +42,29 @@ img_file_buffer = st.file_uploader('Upload an image')
 
 if img_file_buffer is not None:
 
-  col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
-  with col1:
+    with col1:
     ### Display the image user uploaded
-    st.image(Image.open(img_file_buffer), caption="Here's the image you uploaded ☝️")
+        st.image(Image.open(img_file_buffer), caption="Here's the image you uploaded ☝️")
 
 
 
 
-  with col2:
-    with st.spinner("Wait for it..."):
+    with col2:
+        with st.spinner("Wait for it..."):
       ### Get bytes from the file buffer
       #img_bytes = img_file_buffer.getvalue()
 
       ### Make request to  API (stream=True to stream response as bytes)
-      res = requests.post(url, files={'img': img_file_buffer.getvalue()})
+            res = requests.post(url, files={'img': img_file_buffer.getvalue()})
+            res_dict = json.loads(res.json())
 
-
-      if res.status_code == 200:
+            if res.status_code == 200:
         ### Display the image returned by the API
-        for image in res.json():
+                for image in res_dict:
+                    st.image(res_dict[image], caption="Image returned from API ☝️")
 
-            print(image)
-
-            st.image(image[0], caption="Image returned from API ☝️")
-
-      else:
-        st.markdown("**Oops**, something went wrong 😓 Please try again.")
-        print(res.status_code, res.content)
+            #else:
+            #    st.markdown("**Oops**, something went wrong 😓 Please try again.")
+            #    print(res.status_code, res.content)
