@@ -65,6 +65,6 @@ if img_file_buffer is not None:
                 for image in res.json():
                     st.image(res, caption="Image returned from API ☝️")
 
-            #else:
-            #    st.markdown("**Oops**, something went wrong 😓 Please try again.")
-            #    print(res.status_code, res.content)
+            else:
+                st.markdown("**Oops**, something went wrong 😓 Please try again.")
+                print(res.status_code, res.content)
