@@ -18,13 +18,13 @@ st.set_page_config(
 # Example local Docker container URL
 # url = 'http://api:8000'
 # Example localhost development URL
-#url = 'http://localhost:8000'
+url = 'http://localhost:8000'
 #load_dotenv()
 #url = "127.0.0.1:8000"
 
 #"SERVICE_URL = os.environ.get("SERVICE_URL")
 
-url = "https://taxifare-174146437405.europe-west1.run.app/upload_image"
+#url = "https://taxifare-174146437405.europe-west1.run.app/upload_image"
 
 
 # App title and description
