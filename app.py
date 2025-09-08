@@ -62,7 +62,7 @@ if img_file_buffer is not None:
 
             if res.status_code == 200:
         ### Display the image returned by the API
-                for image in res:
+                for image in res.json():
                     st.image(res, caption="Image returned from API ☝️")
 
             #else:
