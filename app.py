@@ -37,7 +37,7 @@ st.markdown('''
 st.markdown("---")
 
 ### Create a native Streamlit file upload input
-st.markdown("### Let's do a simple face recognition 👇")
+st.markdown("### INSPIART - Let's find you some paintings! 👇")
 img_file_buffer = st.file_uploader('Upload an image')
 
 if img_file_buffer is not None:
