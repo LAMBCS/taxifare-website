@@ -18,7 +18,7 @@ st.set_page_config(
 # Example local Docker container URL
 # url = 'http://api:8000'
 # Example localhost development URL
-url = 'http://localhost:8000'
+url = 'http://localhost:8000/upload_image'
 #load_dotenv()
 #url = "127.0.0.1:8000"
 
