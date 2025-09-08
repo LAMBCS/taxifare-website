@@ -57,7 +57,8 @@ if img_file_buffer is not None:
       #img_bytes = img_file_buffer.getvalue()
 
       ### Make request to  API (stream=True to stream response as bytes)
-            res = requests.post(url, files={'img': img_file_buffer})
+            res = requests.post(url, data={'img': img_file_buffer.getvalue()})
+            import ipdb; ipdb.set_trace()
             res_dict = json.loads(res.json())
 
             if res.status_code == 200:
